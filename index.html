@@ -4,9 +4,15 @@
 <meta charset="UTF-8">
 <title>Eid Mubarak | Premium Gift 🌙</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta property="og:title" content="Eid Mubarak | Aapke liye aik Surprise! 🎁">
+<meta property="og:description" content="Zindagi mein kuch log bohat khaas hote hain... click karke apna gift check karein! ✨">
+<meta property="og:image" content="https://images.unsplash.com/photo-1512101176959-c557f3516787?q=80&w=1000&auto=format&fit=crop">
+<meta property="og:type" content="website">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
-/* Previous Styles + New Card Flip Styles */
+/* CSS Reset & Professional UI */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { 
     overflow: hidden; font-family: 'Poppins', sans-serif; 
@@ -18,7 +24,7 @@ body {
 /* 3D Card Container */
 .card-container {
     perspective: 1000px;
-    display: none; /* Initially hidden */
+    display: none; 
     width: 320px;
     height: 400px;
     margin-top: 20px;
@@ -77,10 +83,10 @@ body {
 }
 .btn-whatsapp:hover { background: #128C7E; transform: scale(1.05); }
 
-/* Other existing styles... */
 #setup-ui, #typing-ui, #game-ui { width: 90%; max-width: 400px; padding: 30px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); text-align: center; }
 button { padding: 12px 30px; border-radius: 50px; border: none; background: #ffd700; font-weight: bold; cursor: pointer; margin-top: 15px; }
-.heart { position: absolute; font-size: 35px; cursor: pointer; z-index: 100; }
+input { width:100%; padding:12px; border-radius:10px; border:none; margin-bottom:10px; text-align:center; outline:none; }
+.heart { position: absolute; font-size: 35px; cursor: pointer; z-index: 100; touch-action: none; }
 </style>
 </head>
 <body>
@@ -90,7 +96,7 @@ button { padding: 12px 30px; border-radius: 50px; border: none; background: #ffd
 
 <div id="setup-ui">
     <h2 style="color:#ffd700; margin-bottom:15px;">🌙 EID GIFT</h2>
-    <input type="text" id="name" placeholder="Apna Naam Likhein..." style="width:100%; padding:12px; border-radius:10px; border:none; margin-bottom:10px; text-align:center;">
+    <input type="text" id="name" placeholder="Apna Naam Likhein...">
     <button onclick="startApp()">Unlock Surprise ✨</button>
 </div>
 
@@ -112,17 +118,15 @@ button { padding: 12px 30px; border-radius: 50px; border: none; background: #ffd
         </div>
         <div class="card-back">
             <div id="final-msg" style="font-size:16px; line-height:1.5;"></div>
-            
-            <a href="#" id="whatsapp-btn" class="btn-whatsapp" target="_blank">
-                Share with Me 📱
-            </a>
+            <a href="#" id="whatsapp-btn" class="btn-whatsapp" target="_blank">Share with Me 📱</a>
         </div>
     </div>
 </div>
 
 <script>
 let score = 0, storedName = "";
-let text = "Log toh hazaron milte hain, par har kisi ke sath 'Vibe' match nahi hoti. ✨ Agar aap ye parh rahe ho, toh samajh jao ke aap mere un 'Selected' logoon mein se ho jinke sath bonding level 100/100 hai!. 🌙 Chalo ab game khel kar dikhao, dekhte hain kitne hearts catch karte ho! 😉";
+// Updated Bonding Lines
+let text = "Zindagi mein bohat se log milte hain, par har kisi ke sath 'ACHI BONDING' nahi banti. ✨ Agar ye aap tak aaya hai, toh aap un chand logon mein se ho jin ke sath meri bonding level 100/100 hai! ❤️ Chalo ab game khel kar dikhao, dekhte hain kitne hearts catch karte ho! 😉";
 
 function startApp() {
     let name = document.getElementById('name').value.trim();
@@ -161,10 +165,11 @@ function startGame() {
             if(h.offsetTop > window.innerHeight) { h.remove(); clearInterval(fall); }
         }, 30);
 
-        h.onpointerdown = () => {
+        h.onpointerdown = (e) => {
+            e.preventDefault();
             score++;
             document.getElementById('score').innerText = score;
-            document.getElementById('sound-pop').play();
+            document.getElementById('sound-pop').play().catch(()=>{});
             h.remove(); clearInterval(fall);
             if(score >= 10) { clearInterval(gameInterval); showFinal(); }
         };
@@ -172,32 +177,33 @@ function startGame() {
 }
 
 function showFinal() {
-    document.getElementById('sound-win').play();
+    document.getElementById('sound-win').play().catch(()=>{});
     document.getElementById('game-ui').style.display = 'none';
     document.getElementById('final-card').style.display = 'block';
     
     let name = storedName.toLowerCase().replace(/[^a-z]/g,"");
     let msg = "";
 
-    // Specific Messages
     if(name.includes("khadija")) {
-        msg = "💖 **Eid Mubarak Khadija!** 💖<br><br>Squad ki 'Head of Drama' ko Eid Mubarak! 📸 Outfit check ho gaya? Umeed hai aaj ke 500 photoshoots      mein se kam az kam 2-3 pics tou achi ayi hongi? 😂! Stay pretty, stay happy, stay iconic 💅✨  Or teacher website sai banai ha ?..";
+        msg = "💖 **Eid Mubarak Khadija!** 💖<br><br>Squad ki 'Head of Drama' ko Eid Mubarak! 📸 Outfit check ho gaya? Umeed hai aaj ke 500 photoshoots mein se kam az kam 2-3 pics tou achi ayi hongi? 😂 Stay iconic 💅✨ Or teacher, website sahi banai hai na? 😉";
     } else if(name.includes("khizer") || name.includes("khizar")) {
         msg = "💥 **Eid Mubarak Khizer!** 💥<br><br>2 number hafiz! 😂 Dalali choro aur bhai ke liye bhi kuch dhoondo! 🔥";
     } else if(name.includes("murtaza")) {
-        msg = "🔥 **Eid Mubarak Murtaza!** 🔥<br><br>Jutt Sahab! Heavy vibes hamesha ki tarah!Apky mazhab ka idea nai hamari eid ky mokky par apko bhi Eid Mubarak! 💯";
+        msg = "🔥 **Eid Mubarak Murtaza!** 🔥<br><br>Jutt Sahab! Heavy vibes hamesha ki tarah! Humari Eid ke maukay par aapko bhi Eid Mubarak! 💯";
     } else {
-        msg = "🌙 **Eid Mubarak!** 💖<br><br>Mubarak ho doston, khushiyan aur hasi ke saath ye din enjoy karo. Khana zyada khao, selfies lo aur full vibes mein raho 😄💖😊";
+        msg = "🌙 **Eid Mubarak!** 💖<br><br>Khushiyan aur hasi ke saath ye din enjoy karo. Khana zyada khao, selfies lo aur full vibes mein raho 😄💖😊";
     }
     
     document.getElementById('final-msg').innerHTML = msg;
 
-    // --- WhatsApp Link Logic ---
     let waMessage = `Oye! Maine tumhari Eid Game kheli aur mera score ${score}/10 raha! ✨ Eid Mubarak! ❤️`;
-    // Aap apna number yahan '923000000000' ki format mein likhein
     let myNumber = "923214087156"; 
     document.getElementById('whatsapp-btn').href = `https://wa.me/${myNumber}?text=${encodeURIComponent(waMessage)}`;
 }
+
+// Tab attention grabber
+window.onblur = () => { document.title = "Wapas Aao! 🌙"; }
+window.onfocus = () => { document.title = "Eid Mubarak | Premium Gift 🌙"; }
 </script>
 </body>
 </html>
