@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Eid Ultimate 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle, #0f2027, #000);
+    color: white;
+    text-align: center;
+}
+.container { padding: 20px; }
+.star { position: absolute; width: 2px; height: 2px; background: white; }
+.heartFloat { position: absolute; font-size: 16px; animation: floatUp 6s linear infinite; }
+@keyframes floatUp { from { transform: translateY(100vh); } to { transform: translateY(-10vh); opacity: 0; } }
+#typing { font-size: 20px; min-height: 60px; }
+.heart { position: absolute; font-size: 26px; cursor: pointer; }
+.fire { position: absolute; width: 6px; height: 6px; background: gold; border-radius: 50%; pointer-events: none; z-index: 10; }
+button { padding: 12px 20px; font-size: 16px; border: none; border-radius: 10px; background: gold; cursor: pointer; margin-top: 10px; }
+#final { display: none; font-size: 24px; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>🌙 Eid Mubarak 🌙</h2>
+    <input type="text" id="name" placeholder="Enter name 💖" style="padding:10px; width:80%;">
+    <br>
+    <button onclick="start()">Start ✨</button>
+    <div id="typing"></div>
+    <div id="game" style="display:none;">
+        <h3>💖 Catch Hearts 💖</h3>
+        Score: <span id="score">0</span>
+    </div>
+    <div id="final"></div>
+</div>
+
+<script>
+/* Stars */
+for(let i=0;i<100;i++){
+    let s=document.createElement("div");
+    s.className="star";
+    s.style.top=Math.random()*window.innerHeight+"px";
+    s.style.left=Math.random()*window.innerWidth+"px";
+    document.body.appendChild(s);
+}
+
+/* Floating hearts */
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heartFloat";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*window.innerWidth+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},400);
+
+/* Typing story */
+let text = "Zindagi mein bohat se log milte hain, par har kisi sy achi bonding nahi hoti. Aghar ya web milli sa to ap  gine chune logon mein se ho. ✨❤️ challo hun game khello ak end par surprise bhi ha (hehehehe)";
+let i=0;
+function type(){
+    if(i<text.length){
+        document.getElementById("typing").innerHTML+=text[i];
+        i++;
+        setTimeout(type,40);
+    } else {
+        setTimeout(startGame,1500);
+    }
+}
+
+/* Game */
+let score=0, interval;
+let lastHeartX=0, lastHeartY=0;
+
+function startGame(){
+    document.getElementById("game").style.display="block";
+    interval=setInterval(()=>{
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="💖";
+        h.style.left=Math.random()*window.innerWidth+"px";
+        h.style.top="0px";
+        document.body.appendChild(h);
+
+        let fall=setInterval(()=>{
+            h.style.top=(h.offsetTop+5)+"px";
+            if(h.offsetTop>window.innerHeight){
+                h.remove();
+                clearInterval(fall);
+            }
+        },30);
+
+        h.onclick=()=>{
+            score++;
+            document.getElementById("score").innerText = score;
+            lastHeartX = h.offsetLeft;
+            lastHeartY = h.offsetTop;
+            clearInterval(fall);
+            h.remove();
+            burst(lastHeartX,lastHeartY);
+
+            if(score>=10){
+                clearInterval(interval);
+                endGame();
+            }
+        }
+    },600);
+}
+
+/* Firework burst */
+function burst(x,y){
+    for(let i=0;i<15;i++){
+        let f = document.createElement("div");
+        f.className = "fire";
+        f.style.left = x + "px";
+        f.style.top = y + "px";
+        document.body.appendChild(f);
+
+        let angle = Math.random() * 2 * Math.PI;
+        let dist = Math.random() * 80;
+        let dx = Math.cos(angle) * dist;
+        let dy = Math.sin(angle) * dist;
+
+        f.animate([
+            { transform: "translate(0,0)", opacity: 1 },
+            { transform: `translate(${dx}px,${dy}px)`, opacity: 0 }
+        ], { duration: 600, easing: "ease-out" });
+
+        setTimeout(()=>f.remove(),600);
+    }
+}
+
+/* Final message with guaranteed special names detection */
+function endGame(){
+    let rawName = document.getElementById("name").value;
+
+    // ✅ Clean name: lowercase, remove accents, remove non-letters
+    let name = rawName.toLowerCase()
+                      .normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g,"")
+                      .replace(/[^a-z]/g,"");
+
+    console.log("DEBUG NAME:", name); // Check in browser console
+
+    let msg;
+    if(name.includes("khadija")){
+        msg = `💖 Eid Mubarak Khadija 💖<br><br>
+        Mery squad ky sipahhi ko Eid Mubarak — full vibes, outfits aur memories wali Eid ho 📸✨<br>
+        Outfit check ✔️ Makeup check ✔️ Drama check ✔️ Eid ready 💃🔥<br>
+        Umeed hai aaj ke 500 photoshoots mein se kam az kam 2-3 pics tou achi ayi hongi? 😂<br>
+        Stay pretty, stay happy, stay iconic 💅✨<br>
+        Or teacher website sai banai ha ?`;
+    } else if(name.includes("khizer")){
+        msg = `💥 Eid Mubarak Khizer 💥<br><br>
+        2 number hafiz — squad strong, vibes stronger 💯🔥<br>
+        Jahan bhai, wahan vibe 💯 Eid Mubarak!<br>
+        Apni Dalali Girri sy bahir niklo or bhai ky lia bhi dhoondo`;
+    } else if(name.includes("murtaza")){
+        msg = `🔥 Eid Mubarak Murtaza 🔥<br><br>
+        Jutt sahab — squad strong, vibes stronger 💯🔥<br>
+        Apky mazhab ka idea nai hamari eid ky mokky par apko bhi Eid Mubarak`;
+    } else {
+        msg = `🌙 Eid Mubarak 💖<br><br>
+        Aap meri life mein bohat special ho 😊`;
+    }
+
+    document.getElementById("final").style.display="block";
+    document.getElementById("final").innerHTML = msg;
+    fireworksFinal(lastHeartX, lastHeartY);
+}
+
+/* Final fireworks from last heart */
+function fireworksFinal(x, y){
+    let count = 0;
+    let fw = setInterval(()=>{
+        for(let i=0;i<20;i++){
+            burst(x + Math.random()*20-10, y + Math.random()*20-10);
+        }
+        count++;
+        if(count>=5) clearInterval(fw);
+    },800);
+}
+
+/* Start */
+function start(){
+    i=0;
+    score=0;
+    document.getElementById("score").innerText = 0;
+    document.getElementById("typing").innerHTML="";
+    document.getElementById("final").style.display="none";
+    type();
+}
+</script>
+</body>
+</html>
